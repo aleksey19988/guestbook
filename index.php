@@ -11,36 +11,28 @@
 </head>
 <body>
 <?php
+include 'Validator.php';
+
 $connection = mysqli_connect('localhost', 'root', '');
 $select_db = mysqli_select_db($connection, 'guestbook');
-
-function validator($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-
-    return $data;
-}
+$validator = new Validate\Validator();
 
 if (isset($_POST['name']) && isset($_POST['email']) && $_POST['message-text']) {
-    $name = validator($_POST['name']);
-    $email = validator($_POST['email']);
-    $homepage = validator($_POST['homepage']);
-    $messageText = validator($_POST['message-text']);
+    $name = $validator->validate($_POST['name']);
+    $email = $validator->validate($_POST['email']);
+    $homepage = $validator->validate($_POST['homepage']);
+    $messageText = $validator->validate($_POST['message-text']);
     $query = "INSERT INTO guests (name, email, homepage, messageText) VALUES ('$name', '$email', '$homepage', '$messageText')";
-    var_dump($query);
     $result = mysqli_query($connection, $query);
-    var_dump($result);
 
     if ($result) {
-        $successMessage = 'Сообщение добавлено!';
+        $successMessage = 'Это было классно!';
     } else {
-        $failedMessage = 'Исправьте даннные в соответствии с требованиями!';
+        $failedMessage = 'Ой, ошибочка!';
     }
 }
 ?>
-    <main>
+    <main class="main">
         <div class="container">
             <div class="form-container">
                 <?php if (isset($successMessage)) { ?><div class="alert alert-success" role="alert"> <?php echo $successMessage?> </div> <?php } ?>
