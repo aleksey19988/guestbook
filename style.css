@@ -1,0 +1,18 @@
+.container {
+    max-width: 80%;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-container {
+    min-width: 50%;
+}
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#btn-form {
+    min-width: 50%;
+}
