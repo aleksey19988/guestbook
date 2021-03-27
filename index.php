@@ -13,8 +13,7 @@
 <?php
 include 'Validator.php';
 
-$connection = mysqli_connect('localhost', 'root', '');
-$select_db = mysqli_select_db($connection, 'guestbook');
+$connection = new mysqli('localhost', 'root', '', 'guestbook');
 $validator = new Validate\Validator();
 
 if (isset($_POST['name']) && isset($_POST['email']) && $_POST['message-text']) {
@@ -22,8 +21,9 @@ if (isset($_POST['name']) && isset($_POST['email']) && $_POST['message-text']) {
     $email = $validator->validate($_POST['email']);
     $homepage = $validator->validate($_POST['homepage']);
     $messageText = $validator->validate($_POST['message-text']);
-    $query = "INSERT INTO guests (name, email, homepage, messageText) VALUES ('$name', '$email', '$homepage', '$messageText')";
-    $result = mysqli_query($connection, $query);
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    $ipAddress = ip2long($_SERVER['REMOTE_ADDR']);
+    $result = $connection->query("INSERT INTO `guests` (name, email, homepage, text, user_agent, ip_address) VALUES ('$name', '$email', '$homepage', '$messageText', '$userAgent', '$ipAddress')");
 
     if ($result) {
         $successMessage = 'Это было классно!';
@@ -66,13 +66,34 @@ if (isset($_POST['name']) && isset($_POST['email']) && $_POST['message-text']) {
         </div>
         <div class="container">
             <table class="table table-striped">
-                <tr>
-                    <th>№</th>
-                    <th>User Name</th>
-                    <th>E-mail</th>
-                    <th>Homepage</th>
-                    <th>Text</th>
+                <tr scope="row">
+                    <th scope="col">№</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Homepage</th>
+                    <th scope="col">Text</th>
                 </tr>
+                    <?php
+                    $db_data = $connection->query("SELECT * FROM `guests`")->fetch_all( MYSQLI_ASSOC);
+                    for ($i = 0; $i < count($db_data); $i += 1) { ?>
+                <tr scope="row">
+                    <td scope="col">
+                        <?php echo $i + 1; ?>
+                    </td>
+                    <td scope="col">
+                        <?php echo $db_data[$i]['name']; ?>
+                    </td>
+                    <td scope="col">
+                        <?php echo $db_data[$i]['email']; ?>
+                    </td>
+                    <td scope="col">
+                        <?php echo $db_data[$i]['homepage']; ?>
+                    </td>
+                    <td scope="col">
+                        <?php echo $db_data[$i]['text']; ?>
+                    </td>
+                </tr>
+                    <?php } ?>
             </table>
         </div>
     </main>
