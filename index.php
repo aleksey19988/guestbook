@@ -6,12 +6,13 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <title>Гостевая книга</title>
 </head>
 <body>
 <?php
 include 'Validator.php';
+require 'sortLinkTh.php';
 
 $connection = new mysqli('localhost', 'root', '', 'guestbook');
 $validator = new Validate\Validator();
@@ -21,15 +22,31 @@ if (isset($_POST['name']) && isset($_POST['email']) && $_POST['message-text']) {
     $email = $validator->validate($_POST['email']);
     $homepage = $validator->validate($_POST['homepage']);
     $messageText = $validator->validate($_POST['message-text']);
-    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    $userAgent = $validator->validate($_SERVER['HTTP_USER_AGENT']);
     $ipAddress = ip2long($_SERVER['REMOTE_ADDR']);
     $result = $connection->query("INSERT INTO `guests` (name, email, homepage, text, user_agent, ip_address) VALUES ('$name', '$email', '$homepage', '$messageText', '$userAgent', '$ipAddress')");
 
     if ($result) {
         $successMessage = 'Это было классно!';
     } else {
-        $failedMessage = 'Ой, ошибочка!';
+        $failedMessage = 'Ой, что-то пошло не так!';
     }
+}
+
+$sort_list = [
+    'date_direct' => '`id`',
+    'date_reverse' => '`id` DESC',
+    'name_direct' => '`name`',
+    'name_reverse' => '`name` DESC',
+    'email_direct' => '`email`',
+    'email_reverse' => '`email` DESC',
+];
+
+$sort = $_GET['sort'];
+if (array_key_exists($sort, $sort_list)) {
+    $sort_sql = $sort_list[$sort];
+} else {
+    $sort_sql = reset($sort_list);
 }
 ?>
     <main class="main">
@@ -65,32 +82,39 @@ if (isset($_POST['name']) && isset($_POST['email']) && $_POST['message-text']) {
             </div>
         </div>
         <div class="container">
-            <table class="table table-striped">
-                <tr scope="row">
-                    <th scope="col">№</th>
-                    <th scope="col">User Name</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Homepage</th>
-                    <th scope="col">Text</th>
+            <table class="table table-striped" id="table">
+                <tr>
+                    <th scope="col" class="count"><?php echo sortLinkTh('№', 'date_direct', 'date_reverse')?></th>
+                    <th scope="col" class="user_name"><?php echo sortLinkTh('Name', 'name_direct', 'name_reverse')?></th>
+                    <th scope="col" class="e_mail"><?php echo sortLinkTh('E-mail', 'email_direct', 'email_reverse')?></th>
+                    <th scope="col" class="homepage">Homepage</th>
+                    <th scope="col" class="message_text">Text</th>
                 </tr>
                     <?php
-                    $db_data = $connection->query("SELECT * FROM `guests`")->fetch_all( MYSQLI_ASSOC);
-                    for ($i = 0; $i < count($db_data); $i += 1) { ?>
-                <tr scope="row">
-                    <td scope="col">
-                        <?php echo $i + 1; ?>
+                    $query = "SELECT * FROM `guests` ORDER BY {$sort_sql}";
+                    $dbData = $connection->query($query)->fetch_all( MYSQLI_ASSOC);
+                    $countDb = count($dbData);
+                    for ($i = 0; $i < count($dbData); $i += 1) { ?>
+                <tr>
+                    <td>
+                        <?php if($sort_sql === '`id` DESC') {
+                            echo $countDb;
+                            $countDb--;
+                        } else {
+                            echo $i + 1;
+                        }?>
                     </td>
-                    <td scope="col">
-                        <?php echo $db_data[$i]['name']; ?>
+                    <td>
+                        <?php echo $dbData[$i]['name']; ?>
                     </td>
-                    <td scope="col">
-                        <?php echo $db_data[$i]['email']; ?>
+                    <td>
+                        <?php echo $dbData[$i]['email']; ?>
                     </td>
-                    <td scope="col">
-                        <?php echo $db_data[$i]['homepage']; ?>
+                    <td>
+                        <?php echo $dbData[$i]['homepage']; ?>
                     </td>
-                    <td scope="col">
-                        <?php echo $db_data[$i]['text']; ?>
+                    <td>
+                        <?php echo $dbData[$i]['text']; ?>
                     </td>
                 </tr>
                     <?php } ?>
