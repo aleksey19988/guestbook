@@ -1,13 +1,17 @@
 <?php
 
-function sortLinkTh($header, $directOrder, $reverseOrder)
+function sortLinkTh(string $header, string $directOrder, string $reverseOrder): string
 {
-    $order = $_GET['sort'];
+    if (count($_GET) === 0) {
+        $order = '';
+    } else {
+        $order = $_GET['sort'];
+    }
 
     if ($order === $directOrder) {
-        return '<a href="?sort=' . $reverseOrder . '" class="header_link">' . $header . '<span>&#9660;</span></a>';
+        return '<a href="?sort=' . $reverseOrder . '" class="header_link">' . $header . '<span>&#9650;</span></a>';
     } elseif ($order === $reverseOrder) {
-        return '<a href="?sort=' . $directOrder . '" class="header_link">' . $header . '<span>&#9650;</span></a>';
+        return '<a href="?sort=' . $directOrder . '" class="header_link">' . $header . '<span>&#9660;</span></a>';
     } else {
         return '<a href="?sort=' . $directOrder . '" class="header_link">' . $header . '</a>';
     }
