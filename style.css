@@ -13,14 +13,35 @@
 }
 .btn-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
-#btn-form {
-    width: 100%;
+#btn-form,
+#btn-preview {
+    width: 40%;
 }
 .header_link {
     color: black;
     text-decoration: none;
     display: block;
+}
+.pages {
+    display: flex;
+}
+.page_link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #959595;
+    border-radius: 5px;
+    margin: 3px;
+    text-decoration: none;
+    color: #000;
+    transition: all ease-out .2s;
+}
+.page_link:hover {
+    background-color: #4c4c4c;
+    color: #fff;
 }

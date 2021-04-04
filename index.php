@@ -17,14 +17,12 @@ require 'CheckFileFormat.php';
 
 $connection = new mysqli('localhost', 'root', '', 'guestbook');
 $validator = new Validate\Validator();
-$errors = [];
-
+$fileFormatErrors = [];
 
 if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message-text'])) {
-    print_r($_POST);
-    print_r($_FILES);
-    $errors = checkFileFormat($_FILES);
-    if (count($errors) === 0) {
+    $fileFormatErrors = checkFileFormat($_FILES);//Смотрим, соответствует ли формат прикреплённого файла заданным параметрам
+
+    if (count($fileFormatErrors) === 0) {
         $name = $validator->validate($_POST['name']);
         $email = $validator->validate($_POST['email']);
         $homepage = $validator->validate($_POST['homepage']);
@@ -41,7 +39,7 @@ if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message-tex
     }
 }
 
-$sort_list = [
+$sortList = [
     'date_direct' => '`id`',
     'date_reverse' => '`id` DESC',
     'name_direct' => '`name`',
@@ -53,23 +51,33 @@ $sort_list = [
     'text_direct' => '`text`',
     'text_reverse' => '`text` DESC',
 ];
-if (count($_GET) === 0) {
+if (count($_GET) === 0 || !isset($_GET['sort'])) {
     $sort = '';
 } else {
     $sort = $_GET['sort'];
 }
-if (array_key_exists($sort, $sort_list)) {
-    $sort_sql = $sort_list[$sort];
+if (array_key_exists($sort, $sortList)) {
+    $sortSql = $sortList[$sort];
 } else {
-    $sort_sql = reset($sort_list);
+    $sortSql = reset($sortList);
 }
+
+//Алгоритм для генерации страниц
+
+$perPage = 25;//Сколько строк должно быть на странице
+$rows = $connection->query("SELECT * FROM `guests`")->fetch_all(MYSQLI_ASSOC);// считаем сколько всего строк
+$currentPage = 0;
+if (isset($_GET['page']) && $_GET['page'] > 0) {
+    $currentPage = $_GET['page'];
+}
+$pages = ceil(count($rows) / $perPage);//Делим общее кол-во строк на кол-во строк на странице, чтобы понять сколько нужно страниц
 ?>
     <main class="main">
         <div class="container">
             <div class="form-container">
                 <?php if (isset($successMessage)) { ?><div class="alert alert-success" role="alert"> <?php echo $successMessage?> </div> <?php } ?>
                 <?php if (isset($failedMessage)) { ?><div class="alert alert-danger" role="alert"> <?php echo $failedMessage?> </div> <?php } ?>
-                <?php foreach($errors as $error) { ?><div class="alert alert-danger" role="alert"><?php echo $error ?></div> <?php } ?>
+                <?php foreach($fileFormatErrors as $error) { ?><div class="alert alert-danger" role="alert"><?php echo $error ?></div> <?php } ?>
                 <form enctype="multipart/form-data" action="" method="post">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -94,6 +102,7 @@ if (array_key_exists($sort, $sort_list)) {
                     </div>
                     <div class="btn-container">
                         <button type="submit" id="btn-form" class="btn btn-primary btn-lg">Add</button>
+                        <button type="button" id="btn-preview" class="btn btn-primary btn-lg">Preview</button>
                     </div>
                 </form>
             </div>
@@ -108,34 +117,40 @@ if (array_key_exists($sort, $sort_list)) {
                     <th scope="col" class="message_text"><?php echo sortLinkTh('Text', 'text_direct', 'text_reverse')?></th>
                 </tr>
                     <?php
-                    $query = "SELECT * FROM `guests` ORDER BY {$sort_sql}";
+                    $selectRecord = $currentPage * $perPage;
+                    $query = "SELECT * FROM `guests` ORDER BY {$sortSql} LIMIT {$selectRecord}, {$perPage}";
                     $dbData = $connection->query($query)->fetch_all( MYSQLI_ASSOC);
-                    $countDb = count($dbData);
-                    for ($i = 0; $i < count($dbData); $i += 1) { ?>
+                    for ($i = $selectRecord, $j = 0; $i < count($dbData) + $selectRecord; $i += 1, $j += 1) { ?>
                 <tr>
                     <td>
-                        <?php if($sort_sql === '`id` DESC') {
-                            echo $countDb;
-                            $countDb--;
+                        <?php if($sortSql === '`id` DESC') {
+                            echo count($dbData) - $i;
                         } else {
                             echo $i + 1;
                         }?>
                     </td>
                     <td>
-                        <?php echo $dbData[$i]['name']; ?>
+                        <?php echo $dbData[$j]['name']; ?>
                     </td>
                     <td>
-                        <?php echo $dbData[$i]['email']; ?>
+                        <?php echo $dbData[$j]['email']; ?>
                     </td>
                     <td>
-                        <?php echo $dbData[$i]['homepage']; ?>
+                        <?php echo $dbData[$j]['homepage']; ?>
                     </td>
                     <td>
-                        <?php echo $dbData[$i]['text']; ?>
+                        <?php echo $dbData[$j]['text']; ?>
                     </td>
                 </tr>
                     <?php } ?>
             </table>
+        </div>
+        <div class="container">
+            <div class="pages">
+                <?php for ($i = 1; $i <= $pages; $i += 1): ?>
+                    <a href="?page=<?=$i - 1?>" class="page_link"><?= $i ?></a>
+                <?php endfor ?>
+            </div>
         </div>
     </main>
 </body>
