@@ -3,7 +3,8 @@ namespace Validate;
 
 class Validator
 {
-    public function validate($data) {
+    public function validate($data): string
+    {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);

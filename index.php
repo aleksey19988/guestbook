@@ -1,15 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-    <title>Гостевая книга</title>
-</head>
-<body>
 <?php
 include 'Validator.php';
 require 'sortLinkTh.php';
@@ -72,39 +60,80 @@ if (isset($_GET['page']) && $_GET['page'] > 0) {
 }
 $pages = ceil(count($rows) / $perPage);//Делим общее кол-во строк на кол-во строк на странице, чтобы понять сколько нужно страниц
 ?>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Гостевая книга</title>
+</head>
+<body>
+    <div class="preview" id="preview">
+        <div class="preview_message">
+            <div class="preview_message_container">
+                <h3>Предварительный просмотр</h3>
+                <br>
+                <table class="table table-striped preview_content">
+                    <tr class="header">
+                        <th>№</th>
+                        <th>Name</th>
+                        <th>E-mail</th>
+                        <th>Homepage</th>
+                        <th>Text</th>
+                        <th>Files</th>
+                    </tr>
+                    <tr class="message_content" id="message_content">
+
+                    </tr>
+                </table>
+                <div class="preview_buttons">
+                    <button class="btn btn-primary btn-lg" type="submit" form="form"formaction="" formmethod="post">Мне всё нравится, сохраняем!</button>
+                    <button class="btn btn-primary btn-lg" type="button" id="btn_edit_message">Внести исправления</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <main class="main">
         <div class="container">
             <div class="form-container">
                 <?php if (isset($successMessage)) { ?><div class="alert alert-success" role="alert"> <?php echo $successMessage?> </div> <?php } ?>
                 <?php if (isset($failedMessage)) { ?><div class="alert alert-danger" role="alert"> <?php echo $failedMessage?> </div> <?php } ?>
                 <?php foreach($fileFormatErrors as $error) { ?><div class="alert alert-danger" role="alert"><?php echo $error ?></div> <?php } ?>
-                <form enctype="multipart/form-data" action="" method="post">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Name (required field)" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com (required field)" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="homepage" class="form-label">Homepage</label>
-                        <input type="url" class="form-control" name="homepage" id="homepage" placeholder="https://example.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Text</label>
-                        <textarea class="form-control" name="message-text" id="exampleFormControlTextarea1" placeholder="Your text (required field)" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label">Add file</label>
-                        <input type="hidden" name="MAX_FILE_SIZE" value="1000000">
-                        <input class="form-control" type="file" id="formFile" name="user-file">
-                    </div>
-                    <div class="btn-container">
-                        <button type="submit" id="btn-form" class="btn btn-primary btn-lg">Add</button>
-                        <button type="button" id="btn-preview" class="btn btn-primary btn-lg">Preview</button>
-                    </div>
-                </form>
+                <fieldset>
+                    <legend>Оставь свой комментарий!</legend>
+                    <form enctype="multipart/form-data" action="" method="post" id="form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Name (required field)" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="email" placeholder="name@example.com (required field)" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="homepage" class="form-label">Homepage</label>
+                            <input type="url" class="form-control" name="homepage" placeholder="https://example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Text</label>
+                            <textarea class="form-control" name="message" id="exampleFormControlTextarea1" placeholder="Your text (required field)" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Add file</label>
+                            <input class="form-control" type="file" id="formFile" name="user-file">
+                        </div>
+                        <div class="btn-container">
+                            <button type="submit" id="btn-form" class="btn btn-primary btn-lg">Add</button>
+                            <button type="button" id="btn-preview" class="btn btn-primary btn-lg">Preview</button>
+                        </div>
+                    </form>
+                </fieldset>
             </div>
         </div>
         <div class="container">
@@ -154,4 +183,5 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
         </div>
     </main>
 </body>
+<script src="./previewMessage.js"></script>
 </html>
