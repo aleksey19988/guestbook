@@ -3,21 +3,23 @@ include 'Validator.php';
 require 'sortLinkTh.php';
 require 'CheckFileFormat.php';
 
+
 $connection = new mysqli('localhost', 'root', '', 'guestbook');
 $validator = new Validate\Validator();
 $fileFormatErrors = [];
 
-if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message-text'])) {
+if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message'])) {
     $fileFormatErrors = checkFileFormat($_FILES);//Смотрим, соответствует ли формат прикреплённого файла заданным параметрам
 
     if (count($fileFormatErrors) === 0) {
         $name = $validator->validate($_POST['name']);
         $email = $validator->validate($_POST['email']);
         $homepage = $validator->validate($_POST['homepage']);
-        $messageText = $validator->validate($_POST['message-text']);
+        $messageText = $validator->validate($_POST['message']);
         $userAgent = $validator->validate($_SERVER['HTTP_USER_AGENT']);
         $ipAddress = ip2long($_SERVER['REMOTE_ADDR']);
-        $result = $connection->query("INSERT INTO `guests` (name, email, homepage, text, user_agent, ip_address) VALUES ('$name', '$email', '$homepage', '$messageText', '$userAgent', '$ipAddress')");
+        $datetime = date('Y-m-d H:i:s');
+        $result = $connection->query("INSERT INTO `guests` (name, email, homepage, text, user_agent, ip_address, datetime) VALUES ('$name', '$email', '$homepage', '$messageText', '$userAgent', '$ipAddress', '$datetime')");
 
         if ($result) {
             $successMessage = 'Это было классно!';
@@ -38,6 +40,8 @@ $sortList = [
     'homepage_reverse' => '`homepage` DESC',
     'text_direct' => '`text`',
     'text_reverse' => '`text` DESC',
+    'datetime_direct' => '`datetime`',
+    'datetime_reverse' => '`datetime` DESC'
 ];
 if (count($_GET) === 0 || !isset($_GET['sort'])) {
     $sort = '';
@@ -86,15 +90,15 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                         <th>E-mail</th>
                         <th>Homepage</th>
                         <th>Text</th>
-                        <th>Files</th>
+                        <th>Date and time</th>
                     </tr>
                     <tr class="message_content" id="message_content">
 
                     </tr>
                 </table>
                 <div class="preview_buttons">
-                    <button class="btn btn-primary btn-lg" type="submit" form="form"formaction="" formmethod="post">Мне всё нравится, сохраняем!</button>
-                    <button class="btn btn-primary btn-lg" type="button" id="btn_edit_message">Внести исправления</button>
+                    <button class="btn btn-primary btn-lg" type="submit" form="form" formaction="" formmethod="post">Мне всё нравится, сохраняем!</button>
+                    <button class="btn btn-primary btn-lg" type="button" id="btn_edit_message">Внести изменения</button>
                 </div>
             </div>
         </div>
@@ -144,6 +148,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     <th scope="col" class="e_mail"><?php echo sortLinkTh('E-mail', 'email_direct', 'email_reverse')?></th>
                     <th scope="col" class="homepage"><?php echo sortLinkTh('Homepage', 'homepage_direct', 'homepage_reverse')?></th>
                     <th scope="col" class="message_text"><?php echo sortLinkTh('Text', 'text_direct', 'text_reverse')?></th>
+                    <th scope="col" class="date_time"><?php echo sortLinkTh('Date & time', 'datetime_direct', 'datetime_reverse')?></th>
                 </tr>
                     <?php
                     $selectRecord = $currentPage * $perPage;
@@ -169,6 +174,9 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     </td>
                     <td>
                         <?php echo $dbData[$j]['text']; ?>
+                    </td>
+                    <td>
+                        <?php echo $dbData[$j]['datetime']; ?>
                     </td>
                 </tr>
                     <?php } ?>
