@@ -98,7 +98,21 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                 </table>
                 <div class="preview_buttons">
                     <button class="btn btn-primary btn-lg" type="submit" form="form" formaction="" formmethod="post">Мне всё нравится, сохраняем!</button>
-                    <button class="btn btn-primary btn-lg" type="button" id="btn_edit_message">Внести изменения</button>
+                    <button class="btn btn-primary btn-lg" type="button" id="btn_edit_message">Вернуться</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="preview preview_without_required_fields" id="preview_without_required_fields">
+        <div class="preview_message">
+            <div class="preview_message_container">
+                <h3>Информация:</h3>
+                <br>
+                <p class="information_text">
+                    Сначала нужно заполнить все обязательные поля
+                </p>
+                <div class="preview_buttons">
+                    <button class="btn btn-primary btn-lg" type="button" id="btn_add_required_values">Вернуться</button>
                 </div>
             </div>
         </div>
@@ -128,6 +142,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                             <label for="exampleFormControlTextarea1" class="form-label">Text</label>
                             <textarea class="form-control" name="message" id="exampleFormControlTextarea1" placeholder="Your text (required field)" rows="3" required></textarea>
                         </div>
+                        <input type="hidden" name="date_and_time" class="date_and_time" id="date_and_time" value="<?= date('Y-m-d H:i:s') ?>">
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Add file</label>
                             <input class="form-control" type="file" id="formFile" name="user-file">

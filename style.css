@@ -55,7 +55,7 @@
 }
 .preview_message_container {
     background-color: #fff;
-    padding: 15px;
+    padding: 30px 50px;
     border-radius: 10px;
 }
 .preview_message {
@@ -69,4 +69,7 @@
 .preview_buttons {
     display: flex;
     justify-content: space-evenly;
+}
+.preview_without_required_fields {
+    display: none;
 }
