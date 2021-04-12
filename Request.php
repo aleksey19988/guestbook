@@ -33,4 +33,9 @@ class Request
     {
         return $this->server['HTTP_USER_AGENT'] ?? '';
     }
+
+    public function getIpAddress()
+    {
+        return $this->server['REMOTE_ADDR'] ?? '';
+    }
 }

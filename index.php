@@ -2,22 +2,24 @@
 include 'Validator.php';
 require 'sortLinkTh.php';
 require 'CheckFileFormat.php';
+include 'Request.php';
 
+$request = new Request();
 
 $connection = new mysqli('localhost', 'root', '', 'guestbook');
 $validator = new Validate\Validator();
 $fileFormatErrors = [];
 
-if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message'])) {
+if ($request->getRequest('name') && $request->getRequest('email') && $request->getRequest('message')) {
     $fileFormatErrors = checkFileFormat($_FILES);//Смотрим, соответствует ли формат прикреплённого файла заданным параметрам
 
     if (count($fileFormatErrors) === 0) {
-        $name = $validator->validate($_POST['name']);
-        $email = $validator->validate($_POST['email']);
-        $homepage = $validator->validate($_POST['homepage']);
-        $messageText = $validator->validate($_POST['message']);
-        $userAgent = $validator->validate($_SERVER['HTTP_USER_AGENT']);
-        $ipAddress = ip2long($_SERVER['REMOTE_ADDR']);
+        $name = $validator->validate($request->getRequest('name'));
+        $email = $validator->validate($request->getRequest('email'));
+        $homepage = $validator->validate($request->getRequest('homepage'));
+        $messageText = $validator->validate($request->getRequest('message'));
+        $userAgent = $validator->validate($request->userAgent());
+        $ipAddress = $validator->validate($request->getIpAddress());
         $datetime = date('Y-m-d H:i:s');
         $result = $connection->query("INSERT INTO `guests` (name, email, homepage, text, user_agent, ip_address, datetime) VALUES ('$name', '$email', '$homepage', '$messageText', '$userAgent', '$ipAddress', '$datetime')");
 
@@ -100,6 +102,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     <button class="btn btn-primary btn-lg" type="submit" form="form" formaction="" formmethod="post">Мне всё нравится, сохраняем!</button>
                     <button class="btn btn-primary btn-lg" type="button" id="btn_edit_message">Вернуться</button>
                 </div>
+                <div class="close_button" id="close_button_preview"></div>
             </div>
         </div>
     </div>
@@ -114,6 +117,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                 <div class="preview_buttons">
                     <button class="btn btn-primary btn-lg" type="button" id="btn_add_required_values">Вернуться</button>
                 </div>
+                <div class="close_button" id="close_button"></div>
             </div>
         </div>
     </div>

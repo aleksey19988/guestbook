@@ -7,6 +7,8 @@ const editMessage = document.getElementById('btn_edit_message');
 const previewMessageContent = document.getElementById('message_content');
 const previewWithoutRequiredFields = document.getElementById('preview_without_required_fields');
 const addRequireedValues = document.getElementById('btn_add_required_values');
+const closeButtonPreview = document.getElementById('close_button_preview');
+const closeButton = document.getElementById('close_button');
 
 const requiredFields = {
     name: '',
@@ -63,4 +65,11 @@ editMessage.addEventListener('click', function() {
 
 addRequireedValues.addEventListener('click', function() {
     previewWithoutRequiredFields.style.display = 'none';
+});
+
+closeButton.addEventListener('click', function() {
+    previewWithoutRequiredFields.style.display = 'none';
+});
+closeButtonPreview.addEventListener('click', function() {
+    previewContent.style.display = 'none';
 });
