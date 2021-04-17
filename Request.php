@@ -6,12 +6,14 @@ class Request
     private array $query;
     private array $request;
     private array $server;
+    private array $files;
 
     public function __construct()
     {
         $this->query = $_GET;
         $this->request = $_POST;
         $this->server = $_SERVER;
+        $this->files = $_FILES;
     }
 
     public function getQuery(string $name)
@@ -37,5 +39,9 @@ class Request
     public function getIpAddress()
     {
         return $this->server['REMOTE_ADDR'] ?? '';
+    }
+
+    public function getFiles() {
+        return $this->files;
     }
 }

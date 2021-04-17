@@ -10,26 +10,6 @@ $connection = new mysqli('localhost', 'root', '', 'guestbook');
 $validator = new Validate\Validator();
 $fileFormatErrors = [];
 
-if ($request->getRequest('name') && $request->getRequest('email') && $request->getRequest('message')) {
-    $fileFormatErrors = checkFileFormat($_FILES);//Смотрим, соответствует ли формат прикреплённого файла заданным параметрам
-
-    if (count($fileFormatErrors) === 0) {
-        $name = $validator->validate($request->getRequest('name'));
-        $email = $validator->validate($request->getRequest('email'));
-        $homepage = $validator->validate($request->getRequest('homepage'));
-        $messageText = $validator->validate($request->getRequest('message'));
-        $userAgent = $validator->validate($request->userAgent());
-        $ipAddress = $validator->validate($request->getIpAddress());
-        $datetime = date('Y-m-d H:i:s');
-        $result = $connection->query("INSERT INTO `guests` (name, email, homepage, text, user_agent, ip_address, datetime) VALUES ('$name', '$email', '$homepage', '$messageText', '$userAgent', '$ipAddress', '$datetime')");
-
-        if ($result) {
-            $successMessage = 'Это было классно!';
-        } else {
-            $failedMessage = 'Ой, что-то пошло не так!';
-        }
-    }
-}
 
 $sortList = [
     'date_direct' => '`id`',
@@ -76,7 +56,6 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>Гостевая книга</title>
 </head>
 <body>
@@ -124,18 +103,21 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
     <main class="main">
         <div class="container">
             <div class="form-container">
+                <div class="info-messages">
+
+                </div>
                 <?php if (isset($successMessage)) { ?><div class="alert alert-success" role="alert"> <?php echo $successMessage?> </div> <?php } ?>
                 <?php if (isset($failedMessage)) { ?><div class="alert alert-danger" role="alert"> <?php echo $failedMessage?> </div> <?php } ?>
                 <?php foreach($fileFormatErrors as $error) { ?><div class="alert alert-danger" role="alert"><?php echo $error ?></div> <?php } ?>
                 <fieldset>
                     <legend>Оставь свой комментарий!</legend>
-                    <form enctype="multipart/form-data" action="" method="post" id="form">
+                    <form enctype="multipart/form-data" action="" method="post" id="form" class="my-form">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label">Name*</label>
                             <input type="text" class="form-control" name="name" placeholder="Name (required field)" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
+                            <label for="email" class="form-label">Email address*</label>
                             <input type="email" class="form-control" name="email" placeholder="name@example.com (required field)" required>
                         </div>
                         <div class="mb-3">
@@ -143,7 +125,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                             <input type="url" class="form-control" name="homepage" placeholder="https://example.com">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Text</label>
+                            <label for="exampleFormControlTextarea1" class="form-label">Text*</label>
                             <textarea class="form-control" name="message" id="exampleFormControlTextarea1" placeholder="Your text (required field)" rows="3" required></textarea>
                         </div>
                         <input type="hidden" name="date_and_time" class="date_and_time" id="date_and_time" value="<?= date('Y-m-d H:i:s') ?>">
@@ -211,4 +193,6 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
     </main>
 </body>
 <script src="./previewMessage.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="ajax.js"></script>
 </html>

@@ -5,7 +5,8 @@ function checkFileFormat(array $file): array
     $errors = [];
     $properties = $file['user-file'];
     $nameFileWithFormat = explode('.', $properties['name']);
-    $fileFormat = $nameFileWithFormat[count($nameFileWithFormat) - 1];//Расширение проверяется не так, как следовало бы. Я понимаю. Но по-другоу не получилось
+    print_r($properties);
+    $fileFormat = $nameFileWithFormat[count($nameFileWithFormat) - 1];//Формат(расширение) проверяется не так, как следовало бы. Я понимаю. Но по-другоу не получилось
     $acceptFormats = [
         'imageFormats' => [
             'jpg',
