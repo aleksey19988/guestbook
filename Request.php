@@ -41,7 +41,8 @@ class Request
         return $this->server['REMOTE_ADDR'] ?? '';
     }
 
-    public function getFiles() {
-        return $this->files;
+    public function getFiles(): array
+    {
+        return $this->files ?? [];
     }
 }

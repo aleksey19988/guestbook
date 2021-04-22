@@ -1,12 +1,12 @@
 const isCheckboxOrRadio = (type) => ['radio', 'checkbox'].includes(type);
 
-const {form} = document.forms;
+const form = document.getElementById('my-form');
 const previewForm = document.getElementById('btn-preview');
 const previewContent = document.getElementById('preview');
 const editMessage = document.getElementById('btn_edit_message');
 const previewMessageContent = document.getElementById('message_content');
 const previewWithoutRequiredFields = document.getElementById('preview_without_required_fields');
-const addRequireedValues = document.getElementById('btn_add_required_values');
+const addRequiredValues = document.getElementById('btn_add_required_values');
 const closeButtonPreview = document.getElementById('close_button_preview');
 const closeButton = document.getElementById('close_button');
 
@@ -63,7 +63,7 @@ editMessage.addEventListener('click', function() {
     previewContent.style.display = 'none';
 });
 
-addRequireedValues.addEventListener('click', function() {
+addRequiredValues.addEventListener('click', function() {
     previewWithoutRequiredFields.style.display = 'none';
 });
 

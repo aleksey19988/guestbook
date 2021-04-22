@@ -23,7 +23,7 @@ $sortList = [
     'text_direct' => '`text`',
     'text_reverse' => '`text` DESC',
     'datetime_direct' => '`datetime`',
-    'datetime_reverse' => '`datetime` DESC'
+    'datetime_reverse' => '`datetime` DESC',
 ];
 if (count($_GET) === 0 || !isset($_GET['sort'])) {
     $sort = '';
@@ -72,6 +72,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                         <th>Homepage</th>
                         <th>Text</th>
                         <th>Date and time</th>
+                        <th>File</th>
                     </tr>
                     <tr class="message_content" id="message_content">
 
@@ -106,36 +107,36 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                 <div class="info-messages">
 
                 </div>
-                <?php if (isset($successMessage)) { ?><div class="alert alert-success" role="alert"> <?php echo $successMessage?> </div> <?php } ?>
-                <?php if (isset($failedMessage)) { ?><div class="alert alert-danger" role="alert"> <?php echo $failedMessage?> </div> <?php } ?>
-                <?php foreach($fileFormatErrors as $error) { ?><div class="alert alert-danger" role="alert"><?php echo $error ?></div> <?php } ?>
+<!--                --><?php //if (isset($successMessage)) { ?><!--<div class="alert alert-success" role="alert"> --><?php //echo $successMessage?><!-- </div> --><?php //} ?>
+<!--                --><?php //if (isset($failedMessage)) { ?><!--<div class="alert alert-danger" role="alert"> --><?php //echo $failedMessage?><!-- </div> --><?php //} ?>
+<!--                --><?php //foreach($fileFormatErrors as $error) { ?><!--<div class="alert alert-danger" role="alert">--><?php //echo $error ?><!--</div> --><?php //} ?>
                 <fieldset>
                     <legend>Оставь свой комментарий!</legend>
-                    <form enctype="multipart/form-data" action="" method="post" id="form" class="my-form">
+                    <form enctype="multipart/form-data" action="" method="POST" id="my-form" class="my-form" name="upload">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name*</label>
-                            <input type="text" class="form-control" name="name" placeholder="Name (required field)" required>
+                            <input type="text" class="form-control name" name="name" placeholder="Name (required field)" required onkeyup="handleChange();">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address*</label>
-                            <input type="email" class="form-control" name="email" placeholder="name@example.com (required field)" required>
+                            <input type="email" class="form-control email" name="email" placeholder="name@example.com (required field)" required onkeyup="handleChange();">
                         </div>
                         <div class="mb-3">
                             <label for="homepage" class="form-label">Homepage</label>
-                            <input type="url" class="form-control" name="homepage" placeholder="https://example.com">
+                            <input type="url" class="form-control homepage" name="homepage" placeholder="https://example.com">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Text*</label>
-                            <textarea class="form-control" name="message" id="exampleFormControlTextarea1" placeholder="Your text (required field)" rows="3" required></textarea>
+                            <textarea class="form-control text" name="message" id="exampleFormControlTextarea1" placeholder="Your text (required field)" rows="3" required onkeyup="handleChange();"></textarea>
                         </div>
                         <input type="hidden" name="date_and_time" class="date_and_time" id="date_and_time" value="<?= date('Y-m-d H:i:s') ?>">
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Add file</label>
-                            <input class="form-control" type="file" id="formFile" name="user-file">
+                            <input class="form-control" type="file" id="formFile" name="user_file">
                         </div>
                         <div class="btn-container">
-                            <button type="submit" id="btn-form" class="btn btn-primary btn-lg">Add</button>
-                            <button type="button" id="btn-preview" class="btn btn-primary btn-lg">Preview</button>
+                            <button type="submit" id="btn-form" class="btn btn-primary btn-lg" disabled>Add</button>
+                            <button type="button" id="btn-preview" class="btn btn-primary btn-lg" disabled>Preview</button>
                         </div>
                     </form>
                 </fieldset>
@@ -195,4 +196,5 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
 <script src="./previewMessage.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="ajax.js"></script>
+<script src="enabledButtons.js"></script>
 </html>
