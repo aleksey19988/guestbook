@@ -136,6 +136,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                             <div class="image-preview" id="imagePreview">
                                 <img src="" alt="Image preview" class="image-preview__image">
                                 <span class="image-preview__default-text">Image preview</span>
+                                <div class="del-button" onclick="deleteImage();"></div>
                             </div>
                         </div>
                         <div class="btn-container">

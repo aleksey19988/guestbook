@@ -110,6 +110,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     /*Default text-style*/
     color: #959595;
@@ -118,4 +119,47 @@
 .image-preview__image {
     display: none;
     width: 100%;
+}
+.del-button {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #e1e1e1;
+    position: absolute;
+    right: -13px;
+    top: -13px;
+    cursor: pointer;
+    transition: all .5s ease;
+}
+.del-button::before,
+.del-button::after {
+    position: absolute;
+    left: 12px;
+    top: 1px;
+    content: ' ';
+    height: 23px;
+    width: 1px;
+    background-color: #333333ba;
+}
+.del-button::before {
+    transform: rotate(45deg);
+    transition: width, height .5s ease;
+}
+.del-button::after {
+    transform: rotate(-45deg);
+    transition: all .5s ease;
+}
+.del-button:hover {
+    width: 85px;
+    border-radius: 10%;
+}
+.del-button:hover::before,
+.del-button:hover::after {
+    width: 0;
+    height: 0;
+}
+.del-button:hover::before {
+    content: 'Удалить';
+    transform: rotate(0);
+    left: 11px;
 }

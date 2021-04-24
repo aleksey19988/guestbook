@@ -50,6 +50,19 @@ previewForm.addEventListener('click', function getFormValues(event) {
 
         for (let key in values) {
             let elem = document.createElement("td");
+            /*Проверяем, есть ли файл и если есть - рисуем скрепку вместо его расположения*/
+            if (key === 'user_file') {
+                if (values[key]) {
+                    elem.innerHTML = '&#128206';
+                    previewMessageContent.appendChild(elem);
+                    continue;
+                } else {
+                    elem.innerHTML = '-';
+                    previewMessageContent.appendChild(elem);
+                    continue;
+                }
+            }
+            /*-------------------------------------------------------------------*/
             elem.innerHTML = values[key];
             previewMessageContent.appendChild(elem);
         }
