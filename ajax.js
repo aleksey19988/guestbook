@@ -1,5 +1,6 @@
 let myForm = $('#my-form').get(0);
 let files = $('#formFile').get(0).files;
+const imagePreview = document.getElementsByClassName('image-preview__image')[0];
 
 function submitHandler(formData) {
     fetch('foo.php', {
@@ -11,11 +12,12 @@ function submitHandler(formData) {
         }).then(function(json) {
             let infoMessages = $('.info-messages');
             let btn = $('#btn-form');
-            console.log(json);
             if (json.result === 'success') {
                 infoMessages.html('<div class="alert alert-success popup">Сообщение отправлено!</div>');
                 btn.removeClass('progress-bar-striped progress-bar-animated');
                 $('#my-form').trigger("reset");
+                imagePreview.src = '';
+                imagePreview.style.display = 'none';
             } else if (json.result === 'failed') {
                 infoMessages.html('<div class="alert alert-danger popup">Сообщение не отправлено! (введён уже существующий e-mail или используется некорректный домен)</div>');
                 btn.removeClass('progress-bar-striped progress-bar-animated');

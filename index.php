@@ -25,10 +25,10 @@ $sortList = [
     'datetime_direct' => '`datetime`',
     'datetime_reverse' => '`datetime` DESC',
 ];
-if (count($_GET) === 0 || !isset($_GET['sort'])) {
+if (count($_GET) === 0 || !$request->getQuery('sort')) {
     $sort = '';
 } else {
-    $sort = $_GET['sort'];
+    $sort = $request->getQuery('sort');
 }
 if (array_key_exists($sort, $sortList)) {
     $sortSql = $sortList[$sort];
@@ -41,8 +41,8 @@ if (array_key_exists($sort, $sortList)) {
 $perPage = 25;//Сколько строк должно быть на странице
 $rows = $connection->query("SELECT * FROM `guests`")->fetch_all(MYSQLI_ASSOC);// считаем сколько всего строк
 $currentPage = 0;
-if (isset($_GET['page']) && $_GET['page'] > 0) {
-    $currentPage = $_GET['page'];
+if ($request->getQuery('page') && $request->getQuery('page') > 0) {
+    $currentPage = $request->getQuery('page');
 }
 $pages = ceil(count($rows) / $perPage);//Делим общее кол-во строк на кол-во строк на странице, чтобы понять сколько нужно страниц
 ?>
@@ -136,7 +136,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                             <div class="image-preview" id="imagePreview">
                                 <img src="" alt="Image preview" class="image-preview__image">
                                 <span class="image-preview__default-text">Image preview</span>
-                                <div class="del-button" onclick="deleteImage();"></div>
+                                <div class="del-button" id="deleteFileButton" onclick="deleteImage();"></div>
                             </div>
                         </div>
                         <div class="btn-container">

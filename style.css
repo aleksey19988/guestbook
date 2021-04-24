@@ -130,6 +130,7 @@
     top: -13px;
     cursor: pointer;
     transition: all .5s ease;
+    display: none;
 }
 .del-button::before,
 .del-button::after {
