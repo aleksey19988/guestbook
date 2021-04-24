@@ -79,7 +79,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     </tr>
                 </table>
                 <div class="preview_buttons">
-                    <button class="btn btn-primary btn-lg" type="submit" form="form" formaction="" formmethod="post">Мне всё нравится, сохраняем!</button>
+                    <button class="btn btn-primary btn-lg" type="submit" form="form" formaction="" formmethod="post" id="saveMessage">Мне всё нравится, сохраняем!</button>
                     <button class="btn btn-primary btn-lg" type="button" id="btn_edit_message">Вернуться</button>
                 </div>
                 <div class="close_button" id="close_button_preview"></div>
@@ -132,7 +132,11 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                         <input type="hidden" name="date_and_time" class="date_and_time" id="date_and_time" value="<?= date('Y-m-d H:i:s') ?>">
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Add file</label>
-                            <input class="form-control" type="file" id="formFile" name="user_file">
+                            <input class="form-control" type="file" id="formFile" name="user_file" onchange="previewFile();">
+                            <div class="image-preview" id="imagePreview">
+                                <img src="" alt="Image preview" class="image-preview__image">
+                                <span class="image-preview__default-text">Image preview</span>
+                            </div>
                         </div>
                         <div class="btn-container">
                             <button type="submit" id="btn-form" class="btn btn-primary btn-lg" disabled>Add</button>
@@ -197,4 +201,5 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="ajax.js"></script>
 <script src="enabledButtons.js"></script>
+<script src="previewImg.js"></script>
 </html>

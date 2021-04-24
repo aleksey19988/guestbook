@@ -1,6 +1,5 @@
 let myForm = $('#my-form').get(0);
 let files = $('#formFile').get(0).files;
-let infoMessages = $('.info-messages');
 
 function submitHandler(formData) {
     fetch('foo.php', {
@@ -40,6 +39,17 @@ $('.my-form').submit(function (event) {
     submitHandler(formData);
 });
 
-function displayPopup(popup) {
-    return popup;
-}
+$('#saveMessage').on('click', function (event) {
+    event.preventDefault();
+    let btn = $('#btn-form');
+    btn.addClass('progress-bar-striped progress-bar-animated');
+    let formData = new FormData(myForm);
+
+    if (files.length > 0) {
+        formData.append(files[0].name, files[0]);
+    }
+
+    submitHandler(formData);
+
+    $('.preview').css('display', 'none');
+});
