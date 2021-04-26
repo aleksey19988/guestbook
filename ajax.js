@@ -26,7 +26,7 @@ function submitHandler(formData) {
                 btn.removeClass('progress-bar-striped progress-bar-animated');
             }
         });
-};
+}
 
 $('.my-form').submit(function (event) {
     event.preventDefault();

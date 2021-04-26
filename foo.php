@@ -11,7 +11,7 @@ $validator = new Validate\Validator();
 $connection = new mysqli('localhost', 'root', '', 'guestbook');
 $fileFormatErrors = [];
 
-if ($request->getRequest('name') && $request->getRequest('email') && $request->getRequest('message')) {
+//if ($request->getRequest('name') && $request->getRequest('email') && $request->getRequest('message')) {
     $fileFormatErrors = checkFileFormat($request->getFiles());//Смотрим, соответствует ли формат прикреплённого файла заданным параметрам
 
     if ($fileFormatErrors['result'] === 'success') {
@@ -32,4 +32,4 @@ if ($request->getRequest('name') && $request->getRequest('email') && $request->g
     } else {
         echo json_encode($fileFormatErrors);
     }
-}
+//}

@@ -55,10 +55,46 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/style.css">
     <title>Гостевая книга</title>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="nav-elem">
+                <div class="header-links">
+                    <a class="navbar-brand" href="#">Guestbook</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Разные</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">классные</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">но нерабочие</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">кнопки</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-buttons">
+                    <button type="button" class="btn btn-primary log-in-btn">
+                        <a href="authorization/login/register.html" class="log-in-btn__text">Зарегистрироваться</a>
+                    </button>
+                    <button type="button" class="btn btn-primary sign-in-btn">
+                        <a href="authorization/signIn/signIn.html" class="sign-in-btn__text">Войти</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="preview" id="preview">
         <div class="preview_message">
             <div class="preview_message_container">
@@ -104,12 +140,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
     <main class="main">
         <div class="container">
             <div class="form-container">
-                <div class="info-messages">
-
-                </div>
-<!--                --><?php //if (isset($successMessage)) { ?><!--<div class="alert alert-success" role="alert"> --><?php //echo $successMessage?><!-- </div> --><?php //} ?>
-<!--                --><?php //if (isset($failedMessage)) { ?><!--<div class="alert alert-danger" role="alert"> --><?php //echo $failedMessage?><!-- </div> --><?php //} ?>
-<!--                --><?php //foreach($fileFormatErrors as $error) { ?><!--<div class="alert alert-danger" role="alert">--><?php //echo $error ?><!--</div> --><?php //} ?>
+                <div class="info-messages"></div>
                 <fieldset>
                     <legend>Оставь свой комментарий!</legend>
                     <form enctype="multipart/form-data" action="" method="POST" id="my-form" class="my-form" name="upload">
@@ -147,7 +178,14 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                 </fieldset>
             </div>
         </div>
-        <div class="container">
+        <div class="container-fluid table-search">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success table-search__button" type="submit" disabled>Search</button>
+                <div class="table-search__warning">Поиск пока не реализован. Приносим извинения за доставленные неудобства</div>
+            </form>
+        </div>
+        <div class="container table-container">
             <table class="table table-striped" id="table">
                 <tr>
                     <th scope="col" class="count"><?php echo sortLinkTh('№', 'date_direct', 'date_reverse')?></th>
