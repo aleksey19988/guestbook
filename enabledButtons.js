@@ -3,9 +3,6 @@ const requiredInputs = [
     $('.email'),
     $('.text'),
 ]
-// const name = $('.name');
-// const email = $('.email');
-// const text = $('.text');
 const addButton = $('#btn-form');
 const previewButton = $('#btn-preview');
 
@@ -20,8 +17,4 @@ const handleChange = () => {
     addButton.removeAttr('disabled');
     previewButton.removeAttr('disabled');
 }
-
-// for (const input of requiredInputs) {
-//     input.onkeydown = input.onkeyup = input.onkeypress = input.change = handleChange;
-// }
 

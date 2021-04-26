@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
-    <title>Регистрация</title>
+    <title>Вход</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -37,44 +37,44 @@
                 </div>
                 <div class="navbar-buttons">
                     <button type="button" class="btn btn-primary log-in-btn">
-                        <a href="register.html" class="log-in-btn__text">Зарегистрироваться</a>
+                        <a href="../login/register.html" class="log-in-btn__text">Зарегистрироваться</a>
                     </button>
                     <button type="button" class="btn btn-primary sign-in-btn">
-                        <a href="../signIn/sign-in.php" class="sign-in-btn__nav__text">Войти</a>
+                        <a href="sign-in.php" class="sign-in-btn__nav__text">Войти</a>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
+    <?php if(empty($_COOKIE['user'])): ?>
     <div class="container mt-4">
         <div class="container-content">
             <div class="container-content__form">
-                <legend>Пора стать одним из нас! &#128588;</legend>
+                <legend>Скорее входи! &#128591;</legend>
                 <div class="info-messages"></div>
-                <form method="post" enctype="multipart/form-data" action="" id="registerForm" class="register-form">
+                <form method="post" enctype="multipart/form-data" action="" id="signInForm" class="sign-in-form">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email*</label>
-                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com" required>
-                        <div id="emailHelp" class="form-text">Мы никогда не передадим ваш email третьим лицам</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputPassword" class="form-label">Пароль*</label>
-                        <input type="password" class="form-control" name="password" id="inputPassword" placeholder="минимум 8 символов" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Имя*</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="например, Алексей" required>
+                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com" required onkeyup="blockInput();">
                     </div>
                     <div class="mb-3">
                         <label for="nickname" class="form-label">Никнейм*</label>
-                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Придумайте никнейм" required>
+                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Действующий никнейм" required onkeyup="blockInput();">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-register">Зарегистрироваться</button>
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label">Пароль*</label>
+                        <input type="password" class="form-control" name="password" id="inputPassword" placeholder="********" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sign-in">Войти</button>
                 </form>
             </div>
         </div>
     </div>
+    <?php else: ?>
+    <p>Привет, <?= $_COOKIE['user']?>!. Если ты хочешь выйти - жми <a href="../exit.php">здесь</a>.</p>
+    <?php endif;?>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<script src="registerRequest.js"></script>
+<script src="signInRequest.js"></script>
+<script src="blockInput.js"></script>
 </html>

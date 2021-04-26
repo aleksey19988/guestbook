@@ -1,4 +1,5 @@
 let registerForm = $('#registerForm').get(0);
+let logInBtn = $('.log-in-btn');
 
 function addUser(data) {
     fetch('register.php', {
@@ -11,11 +12,18 @@ function addUser(data) {
             let infoMessages = $('.info-messages');
             let btn = $('.btn-register');
             if (json.result === 'success') {
-                infoMessages.html('<div class="alert alert-success popup">Вы успешно зарегистрировались!</div>');
-                btn.removeClass('progress-bar-striped progress-bar-animated');
+                let linkSignIn = '<a href="../signIn/sign-in.php" class="log-in-btn__text">войдём</a>';
+                let alert = '<div class="alert alert-success popup">' + `Это было классно, ${json.name}!<br><br>Может быть ${linkSignIn}?` + '</div>';
+                infoMessages.html(alert);
                 $('#registerForm').trigger("reset");
             } else if (json.result === 'failed') {
-                infoMessages.html('<div class="alert alert-danger popup">Регистрация не удалась</div>');
+                let alert = '<div class="alert alert-danger popup">' + `${json.details}` + '</div>';
+                infoMessages.html(alert);
+                btn.removeClass('progress-bar-striped progress-bar-animated');
+            } else {
+                let linkSignIn = '<a href="../signIn/sign-in.php" class="log-in-btn__text">войдём</a>';
+                let alert = '<div class="alert alert-danger popup">' + `${json.details}. <br><br>Может быть ${linkSignIn}?` + '</div>';
+                infoMessages.html(alert);
                 btn.removeClass('progress-bar-striped progress-bar-animated');
             }
     });
@@ -29,4 +37,5 @@ $('.register-form').submit(function(event) {
     let formData = new FormData(registerForm);
 
     addUser(formData);
+    $('.log-in-btn__text').css({'color': '#002cdb', 'text-decoration': 'underline'});
 });

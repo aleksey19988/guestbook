@@ -1,0 +1,47 @@
+body {
+    background: linear-gradient(90deg, #f598a8, #f6edb2);
+}
+.container-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container-content__form {
+    max-width: 400px;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 20px;
+}
+.nav-elem {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.header-links {
+    display: flex;
+}
+.log-in-btn,
+.sign-in-btn {
+    background: linear-gradient(120deg, #f598a8, #e8dc81);
+    border: #fff;
+}
+.log-in-btn__text {
+    color: #ffffff;
+    padding: 6px;
+    height: 100%;
+    text-decoration: none;
+}
+.log-in-btn__text:hover {
+    color: #fff;
+}
+.btn-register {
+    background: linear-gradient(120deg, #f598a8, #e8dc81);
+    border-color: #fff;
+}
+.sign-in-btn__nav__text {
+    color: #ffffff;
+    text-decoration: none;
+}
+.sign-in-btn__nav__text:hover {
+    color: #ffffff;
+}

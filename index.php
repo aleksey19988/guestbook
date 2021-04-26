@@ -89,7 +89,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                         <a href="authorization/login/register.html" class="log-in-btn__text">Зарегистрироваться</a>
                     </button>
                     <button type="button" class="btn btn-primary sign-in-btn">
-                        <a href="authorization/signIn/signIn.html" class="sign-in-btn__text">Войти</a>
+                        <a href="authorization/signIn/sign-in.php" class="sign-in-btn__text">Войти</a>
                     </button>
                 </div>
             </div>
