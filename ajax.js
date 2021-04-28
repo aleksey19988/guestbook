@@ -13,7 +13,7 @@ function submitHandler(formData) {
             let infoMessages = $('.info-messages');
             let btn = $('#btn-form');
             if (json.result === 'success') {
-                infoMessages.html('<div class="alert alert-success popup">Сообщение отправлено!</div>');
+                $('.success-save-message').css('display', 'flex');
                 btn.removeClass('progress-bar-striped progress-bar-animated');
                 $('#my-form').trigger("reset");
                 imagePreview.src = '';
@@ -54,4 +54,12 @@ $('#saveMessage').on('click', function (event) {
     submitHandler(formData);
 
     $('.preview').css('display', 'none');
+});
+$('.success-save-message-container__button').on('click', function() {
+    $('.success-save-message').css('display', 'none');
+    location.reload();
+});
+$('.success-save-message-close_button').on('click', function() {
+    $('.success-save-message').css('display', 'none');
+    location.reload();
 });

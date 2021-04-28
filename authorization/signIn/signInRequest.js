@@ -11,9 +11,8 @@ function loginUser(data) {
         let infoMessages = $('.info-messages');
         let btn = $('.btn-sign-in');
         if (json.result === 'success') {
-            let alert = '<div class="alert alert-success popup">Привет, ' + `${json.name}` + '</div>';
-            infoMessages.html(alert);
             btn.removeClass('progress-bar-striped progress-bar-animated');
+            location.reload();
         } else if (json.result === 'failed') {
             let alert = '<div class="alert alert-danger popup">' + `${json.error}! Ты точно всё проверил?` + '</div>';
             infoMessages.html(alert);
@@ -30,6 +29,7 @@ signInForm.submit(function(event) {
 
     let formData = new FormData(signInForm.get(0));
     loginUser(formData);
+
 });
 
 

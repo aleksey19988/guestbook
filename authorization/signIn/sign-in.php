@@ -1,3 +1,10 @@
+<?php
+include '../../Cookies.php';
+
+$cookies = new Cookies();
+?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -46,7 +53,7 @@
             </div>
         </div>
     </nav>
-    <?php if(empty($_COOKIE['user'])): ?>
+    <?php if(empty($cookies->getCookie('user'))): ?>
     <div class="container mt-4">
         <div class="container-content">
             <div class="container-content__form">
@@ -54,12 +61,13 @@
                 <div class="info-messages"></div>
                 <form method="post" enctype="multipart/form-data" action="" id="signInForm" class="sign-in-form">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email*</label>
-                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com" required onkeyup="blockInput();">
+                        <label for="exampleInputEmail1" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com" onkeyup="blockInput();">
                     </div>
+                    <p class="word__or">или</p>
                     <div class="mb-3">
-                        <label for="nickname" class="form-label">Никнейм*</label>
-                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Действующий никнейм" required onkeyup="blockInput();">
+                        <label for="nickname" class="form-label">Никнейм</label>
+                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Действующий никнейм" onkeyup="blockInput();">
                     </div>
                     <div class="mb-3">
                         <label for="inputPassword" class="form-label">Пароль*</label>
@@ -71,7 +79,15 @@
         </div>
     </div>
     <?php else: ?>
-    <p>Привет, <?= $_COOKIE['user']?>!. Если ты хочешь выйти - жми <a href="../exit.php">здесь</a>.</p>
+    <div class="container welcome-container mt-4" id="welcome-container">
+        <div class="welcome-container-content">
+            <h3 class="welcome-header">Здорово! &#127881;</h3>
+            <p class="welcome__content">Привет, <?= $_COOKIE['user']?>! Если ты хочешь выйти - жми <a href="../exit.php">здесь</a>.</p>
+            <button type="button" class="btn btn-primary btn-add-comment">
+                <a href="../../index.php" class="add-comment__text">Оставить комментарий</a>
+            </button>
+        </div>
+    </div>
     <?php endif;?>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

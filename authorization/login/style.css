@@ -16,6 +16,7 @@ body {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .header-links {
     display: flex;
@@ -44,4 +45,7 @@ body {
 }
 .sign-in-btn__nav__text:hover {
     color: #ffffff;
+}
+.log-in-btn__text__popup {
+    color: #052faa;
 }

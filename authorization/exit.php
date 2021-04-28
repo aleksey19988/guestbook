@@ -1,3 +1,7 @@
 <?php
-setcookie('user','',time()-3600);
+include '../Cookies.php';
+
+$cookies = new Cookies();
+$cookies->delCookie('user');
+
 header('Location: ../index.php');

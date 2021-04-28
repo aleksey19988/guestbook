@@ -12,7 +12,7 @@ function addUser(data) {
             let infoMessages = $('.info-messages');
             let btn = $('.btn-register');
             if (json.result === 'success') {
-                let linkSignIn = '<a href="../signIn/sign-in.php" class="log-in-btn__text">войдём</a>';
+                let linkSignIn = '<a href="../signIn/sign-in.php" class="log-in-btn__text__popup">войдём</a>';
                 let alert = '<div class="alert alert-success popup">' + `Это было классно, ${json.name}!<br><br>Может быть ${linkSignIn}?` + '</div>';
                 infoMessages.html(alert);
                 $('#registerForm').trigger("reset");
@@ -21,7 +21,7 @@ function addUser(data) {
                 infoMessages.html(alert);
                 btn.removeClass('progress-bar-striped progress-bar-animated');
             } else {
-                let linkSignIn = '<a href="../signIn/sign-in.php" class="log-in-btn__text">войдём</a>';
+                let linkSignIn = '<a href="../signIn/sign-in.php" class="log-in-btn__text__popup">войдём</a>';
                 let alert = '<div class="alert alert-danger popup">' + `${json.details}. <br><br>Может быть ${linkSignIn}?` + '</div>';
                 infoMessages.html(alert);
                 btn.removeClass('progress-bar-striped progress-bar-animated');
@@ -37,5 +37,5 @@ $('.register-form').submit(function(event) {
     let formData = new FormData(registerForm);
 
     addUser(formData);
-    $('.log-in-btn__text').css({'color': '#002cdb', 'text-decoration': 'underline'});
+    $('.log-in-btn__text__popup').css({'color': '#002cdb', 'text-decoration': 'underline'});
 });

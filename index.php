@@ -1,10 +1,12 @@
 <?php
 include 'Validator.php';
-require 'sortLinkTh.php';
-require 'CheckFileFormat.php';
+include 'sortLinkTh.php';
+include 'CheckFileFormat.php';
 include 'Request.php';
+include 'Cookies.php';
 
 $request = new Request();
+$cookies = new Cookies();
 
 $connection = new mysqli('localhost', 'root', '', 'guestbook');
 $validator = new Validate\Validator();
@@ -59,46 +61,10 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
     <title>Гостевая книга</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <div class="nav-elem">
-                <div class="header-links">
-                    <a class="navbar-brand" href="#">Guestbook</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Разные</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">классные</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">но нерабочие</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">кнопки</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="navbar-buttons">
-                    <button type="button" class="btn btn-primary log-in-btn">
-                        <a href="authorization/login/register.html" class="log-in-btn__text">Зарегистрироваться</a>
-                    </button>
-                    <button type="button" class="btn btn-primary sign-in-btn">
-                        <a href="authorization/signIn/sign-in.php" class="sign-in-btn__text">Войти</a>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
     <div class="preview" id="preview">
         <div class="preview_message">
             <div class="preview_message_container">
-                <h3>Предварительный просмотр</h3>
+                <h3>Предварительный просмотр &#127748;</h3>
                 <br>
                 <table class="table table-striped preview_content">
                     <tr class="header">
@@ -125,7 +91,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
     <div class="preview preview_without_required_fields" id="preview_without_required_fields">
         <div class="preview_message">
             <div class="preview_message_container">
-                <h3>Информация:</h3>
+                <h3>Информация &#127748;</h3>
                 <br>
                 <p class="information_text">
                     Сначала нужно заполнить все обязательные поля
@@ -137,6 +103,59 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
             </div>
         </div>
     </div>
+    <div class="success-save-message">
+        <div class="success-save-message-container">
+            <h3 class="success-save-message-container-header">Отлично! &#127881;</h3>
+            <p class="success-save-message-container__text">Сообщение успешно добавлено</p>
+            <button type="button" class="btn btn-primary btn-lg success-save-message-container__button">Класс</button>
+            <div class="success-save-message-close_button" id="close_button"></div>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="nav-elem">
+                <div class="header-links">
+                    <a class="navbar-brand" href="#">Guestbook</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Разные</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">классные</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">но нерабочие</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">кнопки</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <?php if(!empty($cookies->getCookie('user'))): ?>
+                <div class="log-out-container">
+                    <div class="user">Привет, <?= $cookies->getCookie('user')?></div>
+                    <button type="button" class="btn btn-primary log-in-btn">
+                        <a href="authorization/exit.php" class="log-in-btn__text">Выйти</a>
+                    </button>
+                </div>
+                <?php else: ?>
+                <div class="navbar-buttons">
+                    <button type="button" class="btn btn-primary log-in-btn">
+                        <a href="authorization/login/register.html" class="log-in-btn__text">Зарегистрироваться</a>
+                    </button>
+                    <button type="button" class="btn btn-primary sign-in-btn">
+                        <a href="authorization/signIn/sign-in.php" class="sign-in-btn__text">Войти</a>
+                    </button>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </nav>
     <main class="main">
         <div class="container">
             <div class="form-container">

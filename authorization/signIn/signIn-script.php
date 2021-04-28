@@ -4,9 +4,11 @@ use Validate\Validator;
 
 include '../../Validator.php';
 include  '../../Request.php';
+include '../../Cookies.php';
 
 $validator = new Validator();
 $request = new Request();
+$cookies = new Cookies();
 
 $connection = new mysqli('localhost', 'root', '', 'users_db');
 
@@ -27,7 +29,7 @@ if (empty($user)) {
         'error' => 'Такой пользователь не найден',
     ));
 } else {
-    setcookie('user', $user['name'], time() + 3600, '/');
+    $cookies->setCookie('user', $user['name']);
     echo json_encode(array(
         'result' => 'success',
         'name' => "{$user['name']}",
