@@ -41,7 +41,7 @@ if (array_key_exists($sort, $sortList)) {
 //Алгоритм для генерации страниц
 
 $perPage = 25;//Сколько строк должно быть на странице
-$rows = $connection->query("SELECT * FROM `guests`")->fetch_all(MYSQLI_ASSOC);// считаем сколько всего строк
+$rows = $connection->query("SELECT * FROM `comments`")->fetch_all(MYSQLI_ASSOC);// считаем сколько всего строк
 $currentPage = 0;
 if ($request->getQuery('page') && $request->getQuery('page') > 0) {
     $currentPage = $request->getQuery('page');
@@ -136,9 +136,9 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                         </ul>
                     </div>
                 </div>
-                <?php if(!empty($cookies->getCookie('user'))): ?>
+                <?php if(!empty($cookies->getCookie('userName'))): ?>
                 <div class="log-out-container">
-                    <div class="user">Привет, <?= $cookies->getCookie('user')?></div>
+                    <div class="user">Привет, <?= $cookies->getCookie('userName')?></div>
                     <button type="button" class="btn btn-primary log-in-btn">
                         <a href="authorization/exit.php" class="log-in-btn__text">Выйти</a>
                     </button>
@@ -163,13 +163,15 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                 <fieldset>
                     <legend>Оставь свой комментарий!</legend>
                     <form enctype="multipart/form-data" action="" method="POST" id="my-form" class="my-form" name="upload">
-                        <div class="mb-3">
+                        <div class="mb-3 name-input-container">
                             <label for="name" class="form-label">Name*</label>
                             <input type="text" class="form-control name" name="name" placeholder="Name (required field)" required onkeyup="handleChange();">
+                            <button type="button" id="btn-autocomplete-name" class="btn btn-primary">Заполнить моё имя</button>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 email-input-container">
                             <label for="email" class="form-label">Email address*</label>
                             <input type="email" class="form-control email" name="email" placeholder="name@example.com (required field)" required onkeyup="handleChange();">
+                            <button type="button" id="btn-autocomplete-email" class="btn btn-primary">Заполнить мой email</button>
                         </div>
                         <div class="mb-3">
                             <label for="homepage" class="form-label">Homepage</label>
@@ -213,10 +215,11 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     <th scope="col" class="homepage"><?php echo sortLinkTh('Homepage', 'homepage_direct', 'homepage_reverse')?></th>
                     <th scope="col" class="message_text"><?php echo sortLinkTh('Text', 'text_direct', 'text_reverse')?></th>
                     <th scope="col" class="date_time"><?php echo sortLinkTh('Date & time', 'datetime_direct', 'datetime_reverse')?></th>
+                    <th scope="col" class="table__options">Options</th>
                 </tr>
                     <?php
                     $selectRecord = $currentPage * $perPage;
-                    $query = "SELECT * FROM `guests` ORDER BY {$sortSql} LIMIT {$selectRecord}, {$perPage}";
+                    $query = "SELECT * FROM `comments` ORDER BY {$sortSql} LIMIT {$selectRecord}, {$perPage}";
                     $dbData = $connection->query($query)->fetch_all( MYSQLI_ASSOC);
                     for ($i = $selectRecord, $j = 0; $i < count($dbData) + $selectRecord; $i += 1, $j += 1) { ?>
                 <tr>
@@ -242,6 +245,14 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     <td>
                         <?php echo $dbData[$j]['datetime']; ?>
                     </td>
+                    <td class="table-options">
+                        <?php if ($dbData[$j]['user_id'] === $cookies->getCookie('userId')): ?>
+                            <a href="#" class="edit-message-button">&#9998;</a>
+                            <a href="#" class="delete-message-button">&#215;</a>
+                        <?php else: ?>
+                            <p>-</p>
+                        <?php endif; ?>
+                    </td>
                 </tr>
                     <?php } ?>
             </table>
@@ -259,5 +270,6 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="ajax.js"></script>
 <script src="enabledButtons.js"></script>
-<script src="previewImg.js"></script>
+<script src="previewImg.js" charset="utf-8"></script>
+<script src="autocompleteInput.js"></script>
 </html>

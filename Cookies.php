@@ -18,7 +18,7 @@ class Cookies
 
     public function getCookie(string $name)
     {
-        return $this->cookies[$name] ?? null;
+        return $this->cookies[$name] ?? '';
     }
 
     public function getAllCookies(): array

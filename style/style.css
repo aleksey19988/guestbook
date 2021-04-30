@@ -274,3 +274,31 @@ a {
     justify-content: space-between;
     align-items: center;
 }
+.edit-message-button {
+    font-size: 30px;
+    color: #000;
+}
+.delete-message-button {
+    font-size: 30px;
+    color: #000;
+}
+.table-options {
+    display: flex;
+    justify-content: space-evenly;
+}
+.btn-form:hover {
+    background: #959595;
+}
+.name-input-container,
+.email-input-container {
+    position: relative;
+}
+#btn-autocomplete-name,
+#btn-autocomplete-email {
+    position: absolute;
+    top: 35px;
+    right: 3px;
+    width: 150px;
+    font-size: 12px;
+    display: none;
+}

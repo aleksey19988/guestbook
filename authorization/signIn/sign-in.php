@@ -53,7 +53,7 @@ $cookies = new Cookies();
             </div>
         </div>
     </nav>
-    <?php if(empty($cookies->getCookie('user'))): ?>
+    <?php if(empty($cookies->getCookie('userName'))): ?>
     <div class="container mt-4">
         <div class="container-content">
             <div class="container-content__form">
@@ -82,7 +82,7 @@ $cookies = new Cookies();
     <div class="container welcome-container mt-4" id="welcome-container">
         <div class="welcome-container-content">
             <h3 class="welcome-header">Здорово! &#127881;</h3>
-            <p class="welcome__content">Привет, <?= $_COOKIE['user']?>! Если ты хочешь выйти - жми <a href="../exit.php">здесь</a>.</p>
+            <p class="welcome__content">Привет, <?= $cookies->getCookie('userName') ?>! Если ты хочешь выйти - жми <a href="../exit.php">здесь</a>.</p>
             <button type="button" class="btn btn-primary btn-add-comment">
                 <a href="../../index.php" class="add-comment__text">Оставить комментарий</a>
             </button>

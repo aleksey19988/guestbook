@@ -29,7 +29,10 @@ if (empty($user)) {
         'error' => 'Такой пользователь не найден',
     ));
 } else {
-    $cookies->setCookie('user', $user['name']);
+    $cookies->setCookie('userName', $user['name']);
+    $cookies->setCookie('userNickname', $user['nickname']);
+    $cookies->setCookie('userId', $user['id']);
+    $cookies->setCookie('userEmail', $user['email']);
     echo json_encode(array(
         'result' => 'success',
         'name' => "{$user['name']}",
