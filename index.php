@@ -111,6 +111,27 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
             <div class="success-save-message-close_button" id="close_button"></div>
         </div>
     </div>
+    <div class="edit-message-window-container">
+        <div class="edit-message-window">
+            <h3 class="edit-message-window-header">Редактировать сообщение &#9998;</h3>
+            <form action="" class="edit-message-form">
+                <textarea name="edit-message-input" id="edit-message-input" class="edit-message-input"></textarea>
+                <div class="edit-message-window-buttons">
+                    <button type="submit" class="btn btn-primary save-edit-message-button">Сохранить</button>
+                    <button type="button" class="btn btn-primary cancel-edit-button-button">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="delete-message-window-container">
+        <div class="delete-message-window">
+            <h3 class="delete-message-window-header">Удалить сообщение &#215;</h3>
+            <form action="" class="delete-message-form">
+                <button type="submit" class="btn btn-primary delete-message-button">Сохранить</button>
+                <button type="button" class="btn btn-primary cancel-delete-message-button">Отмена</button>
+            </form>
+        </div>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <div class="nav-elem">
@@ -239,7 +260,7 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     <td>
                         <?php echo $dbData[$j]['homepage']; ?>
                     </td>
-                    <td>
+                    <td class="text-message">
                         <?php echo $dbData[$j]['text']; ?>
                     </td>
                     <td>
@@ -247,8 +268,8 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     </td>
                     <td class="table-options">
                         <?php if ($dbData[$j]['user_id'] === $cookies->getCookie('userId')): ?>
-                            <a href="#" class="edit-message-button">&#9998;</a>
-                            <a href="#" class="delete-message-button">&#215;</a>
+                            <div class="edit-message-button">&#9998;</div>
+                            <div class="delete-message-button">&#215;</div>
                         <?php else: ?>
                             <p>-</p>
                         <?php endif; ?>
@@ -272,4 +293,5 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
 <script src="enabledButtons.js"></script>
 <script src="previewImg.js" charset="utf-8"></script>
 <script src="autocompleteInput.js"></script>
+<script src="./optionsWithComments/editComment.js"></script>
 </html>

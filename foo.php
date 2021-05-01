@@ -24,8 +24,8 @@ if ($fileFormatErrors['result'] === 'success') {
     $ipAddress = $validator->validate($request->getIpAddress());
     $datetime = $now->format('Y-m-d H:i:s');
 
-    if ($cookies->getCookie('nickname')) {
-        $userNickName = $cookies->getCookie('nickname');
+    if ($cookies->getCookie('userNickname')) {
+        $userNickName = $cookies->getCookie('userNickname');
         $connectionUsersDb = new mysqli('localhost', 'root', '', 'users_db');
         $userId = $connectionUsersDb->query("SELECT * FROM users WHERE nickname = '$userNickName'")->fetch_assoc()['id'];
         $result = $connection->query("INSERT INTO `comments` (name, email, homepage, text, user_agent, ip_address, datetime, user_id) VALUES ('$name', '$email', '$homepage', '$messageText', '$userAgent', '$ipAddress', '$datetime', '$userId')");

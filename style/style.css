@@ -1,3 +1,6 @@
+body {
+    position: relative;
+}
 .main {
     padding: 25px;
 }
@@ -274,13 +277,18 @@ a {
     justify-content: space-between;
     align-items: center;
 }
-.edit-message-button {
-    font-size: 30px;
-    color: #000;
-}
+.edit-message-button,
 .delete-message-button {
     font-size: 30px;
     color: #000;
+    cursor: pointer;
+    transition: color .3s ease;
+}
+.edit-message-button:hover {
+    color: #3b61dc;
+}
+.delete-message-button:hover {
+    color: #e22626;
 }
 .table-options {
     display: flex;
@@ -301,4 +309,37 @@ a {
     width: 150px;
     font-size: 12px;
     display: none;
+}
+.edit-message-window-container {
+    width: 100vw;
+    min-height: 100vh;
+    background: rgba(149, 149, 149, 0.55);
+    position: absolute;
+    z-index: 1;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+}
+.edit-message-window {
+    width: 70%;
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.edit-message-window-header {
+    margin-bottom: 20px;
+}
+.edit-message-input {
+    height: 110px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.save-edit-message-button,
+.cancel-edit-message-button {
+    margin-bottom: 20px;
+    width: 100px;
 }
