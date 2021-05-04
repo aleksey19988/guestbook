@@ -221,7 +221,7 @@ a {
 }
 .success-save-message {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     position: absolute;
     background: #959595a3;
     z-index: 100;
@@ -310,7 +310,8 @@ a {
     font-size: 12px;
     display: none;
 }
-.edit-message-window-container {
+.edit-message-window-container,
+.delete-message-window-container {
     width: 100vw;
     min-height: 100vh;
     background: rgba(149, 149, 149, 0.55);
@@ -322,15 +323,17 @@ a {
     top: 0;
     bottom: 0;
 }
-.edit-message-window {
-    width: 70%;
+.edit-message-window,
+.delete-message-window {
+    max-width: 70%;
     background: #fff;
     border-radius: 20px;
     padding: 20px;
     display: flex;
     flex-direction: column;
 }
-.edit-message-window-header {
+.edit-message-window-header,
+.delete-message-window-header {
     margin-bottom: 20px;
 }
 .edit-message-input {
@@ -340,6 +343,23 @@ a {
 }
 .save-edit-message-button,
 .cancel-edit-message-button {
-    margin-bottom: 20px;
     width: 100px;
+}
+.delete-message-window {
+    width: 30%;
+}
+.delete-message-symbol {
+    color: red;
+}
+.delete-message-window-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+.edit-status-success,
+.edit-status-failed {
+    display: none;
+}
+.delete-message-status-success,
+.delete-message-status-failed {
+    display: none;
 }

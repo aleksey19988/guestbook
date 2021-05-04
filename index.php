@@ -113,23 +113,47 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
     </div>
     <div class="edit-message-window-container">
         <div class="edit-message-window">
-            <h3 class="edit-message-window-header">Редактировать сообщение &#9998;</h3>
-            <form action="" class="edit-message-form">
-                <textarea name="edit-message-input" id="edit-message-input" class="edit-message-input"></textarea>
-                <div class="edit-message-window-buttons">
-                    <button type="submit" class="btn btn-primary save-edit-message-button">Сохранить</button>
-                    <button type="button" class="btn btn-primary cancel-edit-button-button">Отмена</button>
+            <div class="edit-form">
+                <h3 class="edit-message-window-header">Редактировать сообщение &#9998;</h3>
+                <form action="" class="edit-message-form" id="edit-message-form" enctype="multipart/form-data" method="post">
+                    <textarea name="edit-message-input" id="edit-message-input" class="edit-message-input"></textarea>
+                    <div class="edit-message-window-buttons">
+                        <button type="submit" class="btn btn-primary save-edit-message-button">Сохранить</button>
+                        <button type="button" class="btn btn-primary cancel-edit-message-button">Отмена</button>
+                    </div>
+                </form>
+            </div>
+            <div class="edit-status">
+                <div class="edit-status-success">
+                    <h3 class="edit-message-window-header">Сообщение успешно отредактировано! &#127881;</h3>
+                    <button type="button" class="btn btn-primary update-page-button-after-edit-message">Класс</button>
                 </div>
-            </form>
+                <div class="edit-status-failed">
+                    <h3 class="edit-message-window-header">Что-то пошло не так &#128532;</h3>
+                    <button type="button" class="btn btn-primary update-page-button-after-edit-message">Попробовать ещё раз</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="delete-message-window-container">
         <div class="delete-message-window">
-            <h3 class="delete-message-window-header">Удалить сообщение &#215;</h3>
-            <form action="" class="delete-message-form">
-                <button type="submit" class="btn btn-primary delete-message-button">Сохранить</button>
-                <button type="button" class="btn btn-primary cancel-delete-message-button">Отмена</button>
-            </form>
+            <div class="delete-message-content">
+                <h3 class="delete-message-window-header">Удалить сообщение?</h3>
+                <div class="delete-message-window-buttons">
+                    <button type="submit" class="btn btn-primary agree-delete-message-button">Да</button>
+                    <button type="button" class="btn btn-primary cancel-delete-message-button">Нет</button>
+                </div>
+            </div>
+            <div class="delete-message-status">
+                <div class="delete-message-status-success">
+                    <h3 class="edit-message-window-header">Сообщение успешно удалено! &#127881;</h3>
+                    <button type="button" class="btn btn-primary update-page-button-after-edit-message">Класс</button>
+                </div>
+                <div class="delete-message-status-failed">
+                    <h3 class="edit-message-window-header">Что-то пошло не так &#128532;</h3>
+                    <button type="button" class="btn btn-primary update-page-button-after-edit-message">Попробовать ещё раз</button>
+                </div>
+            </div>
         </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -235,8 +259,9 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     <th scope="col" class="e_mail"><?php echo sortLinkTh('E-mail', 'email_direct', 'email_reverse')?></th>
                     <th scope="col" class="homepage"><?php echo sortLinkTh('Homepage', 'homepage_direct', 'homepage_reverse')?></th>
                     <th scope="col" class="message_text"><?php echo sortLinkTh('Text', 'text_direct', 'text_reverse')?></th>
-                    <th scope="col" class="date_time"><?php echo sortLinkTh('Date & time', 'datetime_direct', 'datetime_reverse')?></th>
-                    <th scope="col" class="table__options">Options</th>
+                    <th scope="col" class="date_time"><?php echo sortLinkTh(' Create date & time', 'datetime_direct', 'datetime_reverse')?></th>
+                    <th scope="col" class="edit_date_and_time">Edit date & time</th>
+                    <th scope="col" class="table_options">Options</th>
                 </tr>
                     <?php
                     $selectRecord = $currentPage * $perPage;
@@ -266,6 +291,17 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     <td>
                         <?php echo $dbData[$j]['datetime']; ?>
                     </td>
+                    <td>
+                        <!-- Если в таблице найдена дата редактирования - отображаем её в таблице. Нет - отображаем прочерк -->
+                        <?php
+                            if (!empty($dbData[$j]['editDateAndTime'])) {
+                                echo $dbData[$j]['editDateAndTime'];
+                            } else {
+                                echo '-';
+                            }
+                        ?>
+                        <!-- --- -->
+                    </td>
                     <td class="table-options">
                         <?php if ($dbData[$j]['user_id'] === $cookies->getCookie('userId')): ?>
                             <div class="edit-message-button">&#9998;</div>
@@ -293,5 +329,6 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
 <script src="enabledButtons.js"></script>
 <script src="previewImg.js" charset="utf-8"></script>
 <script src="autocompleteInput.js"></script>
-<script src="./optionsWithComments/editComment.js"></script>
+<script src="optionsWithMessages/editMessage.js"></script>
+<script src="optionsWithMessages/deleteMessage.js"></script>
 </html>
