@@ -1,3 +1,5 @@
+import getCookiesInObj from "./cookiesInObj.js";
+
 const autocompleteNameBtn = $('#btn-autocomplete-name');
 const autocompleteEmailBtn = $('#btn-autocomplete-email');
 let nameInput = $('.name');
@@ -5,14 +7,7 @@ let emailInput = $('.email');
 
 
 if (document.cookie !== '') {
-    let cookies = {};
-    let arrayCookies = document.cookie.split(';');
-
-    for (let i = 0; i < arrayCookies.length; i++) {
-        let property = arrayCookies[i].split('=')[0].trim();
-        let value = decodeURIComponent(arrayCookies[i].split('=')[1].trim());
-        cookies[property] = value;
-    }
+    let cookies = getCookiesInObj(document.cookie);
 
     if (cookies.userName !== undefined) {
         autocompleteNameBtn.css('display', 'block');

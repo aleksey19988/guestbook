@@ -8,45 +8,6 @@ include 'Cookies.php';
 $request = new Request();
 $cookies = new Cookies();
 
-$connection = new mysqli('localhost', 'root', '', 'guestbook');
-$validator = new Validate\Validator();
-$fileFormatErrors = [];
-
-
-$sortList = [
-    'date_direct' => '`id`',
-    'date_reverse' => '`id` DESC',
-    'name_direct' => '`name`',
-    'name_reverse' => '`name` DESC',
-    'email_direct' => '`email`',
-    'email_reverse' => '`email` DESC',
-    'homepage_direct' => '`homepage`',
-    'homepage_reverse' => '`homepage` DESC',
-    'text_direct' => '`text`',
-    'text_reverse' => '`text` DESC',
-    'datetime_direct' => '`datetime`',
-    'datetime_reverse' => '`datetime` DESC',
-];
-if (count($_GET) === 0 || !$request->getQuery('sort')) {
-    $sort = '';
-} else {
-    $sort = $request->getQuery('sort');
-}
-if (array_key_exists($sort, $sortList)) {
-    $sortSql = $sortList[$sort];
-} else {
-    $sortSql = reset($sortList);
-}
-
-//Алгоритм для генерации страниц
-
-$perPage = 25;//Сколько строк должно быть на странице
-$rows = $connection->query("SELECT * FROM `comments`")->fetch_all(MYSQLI_ASSOC);// считаем сколько всего строк
-$currentPage = 0;
-if ($request->getQuery('page') && $request->getQuery('page') > 0) {
-    $currentPage = $request->getQuery('page');
-}
-$pages = ceil(count($rows) / $perPage);//Делим общее кол-во строк на кол-во строк на странице, чтобы понять сколько нужно страниц
 ?>
 
 <!doctype html>
@@ -245,15 +206,14 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
             </div>
         </div>
         <div class="container-fluid table-search">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success table-search__button" type="submit" disabled>Search</button>
-                <div class="table-search__warning">Поиск пока не реализован. Приносим извинения за доставленные неудобства</div>
+            <form class="d-flex table-search__form">
+                <input class="form-control me-2" type="search" placeholder="Search" name="search" id="table-search__input">
+                <button class="btn btn-outline-success table-search__button" type="submit">Search</button>
             </form>
         </div>
         <div class="container table-container">
             <table class="table table-striped" id="table">
-                <tr>
+                <tr class="table-header">
                     <th scope="col" class="count"><?php echo sortLinkTh('№', 'date_direct', 'date_reverse')?></th>
                     <th scope="col" class="user_name"><?php echo sortLinkTh('Name', 'name_direct', 'name_reverse')?></th>
                     <th scope="col" class="e_mail"><?php echo sortLinkTh('E-mail', 'email_direct', 'email_reverse')?></th>
@@ -263,64 +223,18 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
                     <th scope="col" class="edit_date_and_time">Edit date & time</th>
                     <th scope="col" class="table_options">Options</th>
                 </tr>
-                    <?php
-                    $selectRecord = $currentPage * $perPage;
-                    $query = "SELECT * FROM `comments` ORDER BY {$sortSql} LIMIT {$selectRecord}, {$perPage}";
-                    $dbData = $connection->query($query)->fetch_all( MYSQLI_ASSOC);
-                    for ($i = $selectRecord, $j = 0; $i < count($dbData) + $selectRecord; $i += 1, $j += 1) { ?>
-                <tr>
-                    <td>
-                        <?php if($sortSql === '`id` DESC') {
-                            echo count($dbData) - $i;
-                        } else {
-                            echo $i + 1;
-                        }?>
-                    </td>
-                    <td>
-                        <?php echo $dbData[$j]['name']; ?>
-                    </td>
-                    <td>
-                        <?php echo $dbData[$j]['email']; ?>
-                    </td>
-                    <td>
-                        <?php echo $dbData[$j]['homepage']; ?>
-                    </td>
-                    <td class="text-message">
-                        <?php echo $dbData[$j]['text']; ?>
-                    </td>
-                    <td>
-                        <?php echo $dbData[$j]['datetime']; ?>
-                    </td>
-                    <td>
-                        <!-- Если в таблице найдена дата редактирования - отображаем её в таблице. Нет - отображаем прочерк -->
-                        <?php
-                            if (!empty($dbData[$j]['editDateAndTime'])) {
-                                echo $dbData[$j]['editDateAndTime'];
-                            } else {
-                                echo '-';
-                            }
-                        ?>
-                        <!-- --- -->
-                    </td>
-                    <td class="table-options">
-                        <?php if ($dbData[$j]['user_id'] === $cookies->getCookie('userId')): ?>
-                            <div class="edit-message-button">&#9998;</div>
-                            <div class="delete-message-button">&#215;</div>
-                        <?php else: ?>
-                            <p>-</p>
-                        <?php endif; ?>
-                    </td>
+                <tr class="table-content-without-search" id="table-content-without-search">
+
                 </tr>
-                    <?php } ?>
             </table>
         </div>
-        <div class="container">
-            <div class="pages">
-                <?php for ($i = 1; $i <= $pages; $i += 1): ?>
-                    <a href="?page=<?=$i - 1?>" class="page_link"><?= $i ?></a>
-                <?php endfor ?>
-            </div>
-        </div>
+<!--        <div class="container">-->
+<!--            <div class="pages">-->
+<!--                --><?php //for ($i = 1; $i <= $pages; $i += 1): ?>
+<!--                    <a href="?page=--><?//=$i - 1?><!--" class="page_link">--><?//= $i ?><!--</a>-->
+<!--                --><?php //endfor ?>
+<!--            </div>-->
+<!--        </div>-->
     </main>
 </body>
 <script src="./previewMessage.js"></script>
@@ -328,7 +242,8 @@ $pages = ceil(count($rows) / $perPage);//Делим общее кол-во ст�
 <script src="ajax.js"></script>
 <script src="enabledButtons.js"></script>
 <script src="previewImg.js" charset="utf-8"></script>
-<script src="autocompleteInput.js"></script>
-<script src="optionsWithMessages/editMessage.js"></script>
-<script src="optionsWithMessages/deleteMessage.js"></script>
+<script type="module" src="autocompleteInput.js"></script>
+<script type="module" src="searchMessage/searchMessage.js"></script>
+<!--<script src="optionsWithMessages/editMessage.js"></script>-->
+<!--<script src="optionsWithMessages/deleteMessage.js"></script>-->
 </html>

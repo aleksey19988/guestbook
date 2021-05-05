@@ -43,13 +43,13 @@ previewForm.addEventListener('click', function getFormValues(event) {
     }
 
     if (isRequiredFieldsInput(requiredFields, values)) {
-        previewMessageContent.innerHTML = '';
-        let elem = document.createElement("td");
+        previewMessageContent.innerHTML = '';//Очищаем потому, что пользователь может несколько раз смотреть превью
+        let elem = document.createElement('td');
         elem.innerHTML = '#';
         previewMessageContent.appendChild(elem);
 
         for (let key in values) {
-            let elem = document.createElement("td");
+            let elem = document.createElement('td');
             /*Проверяем, есть ли файл и если есть - рисуем скрепку вместо его расположения*/
             if (key === 'user_file') {
                 if (values[key]) {
