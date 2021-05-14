@@ -9,7 +9,6 @@ $request = new Request();
 $cookies = new Cookies();
 
 ?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -212,29 +211,31 @@ $cookies = new Cookies();
             </form>
         </div>
         <div class="container table-container">
-            <table class="table table-striped" id="table">
-                <tr class="table-header">
-                    <th scope="col" class="count"><?php echo sortLinkTh('№', 'date_direct', 'date_reverse')?></th>
-                    <th scope="col" class="user_name"><?php echo sortLinkTh('Name', 'name_direct', 'name_reverse')?></th>
-                    <th scope="col" class="e_mail"><?php echo sortLinkTh('E-mail', 'email_direct', 'email_reverse')?></th>
-                    <th scope="col" class="homepage"><?php echo sortLinkTh('Homepage', 'homepage_direct', 'homepage_reverse')?></th>
-                    <th scope="col" class="message_text"><?php echo sortLinkTh('Text', 'text_direct', 'text_reverse')?></th>
-                    <th scope="col" class="date_time"><?php echo sortLinkTh(' Create date & time', 'datetime_direct', 'datetime_reverse')?></th>
-                    <th scope="col" class="edit_date_and_time">Edit date & time</th>
-                    <th scope="col" class="table_options">Options</th>
-                </tr>
-                <tr class="table-content-without-search" id="table-content-without-search">
+            <table class="table table-striped table-bordered" id="table">
+                <thead>
+                    <tr class="table-header">
+                        <th scope="col" class="count"><?php echo sortLinkTh('№', 'date_direct', 'date_reverse')?></th>
+                        <th scope="col" class="user_name"><?php echo sortLinkTh('Name', 'name_direct', 'name_reverse')?></th>
+                        <th scope="col" class="e_mail"><?php echo sortLinkTh('E-mail', 'email_direct', 'email_reverse')?></th>
+                        <th scope="col" class="homepage"><?php echo sortLinkTh('Homepage', 'homepage_direct', 'homepage_reverse')?></th>
+                        <th scope="col" class="message_text"><?php echo sortLinkTh('Text', 'text_direct', 'text_reverse')?></th>
+                        <th scope="col" class="date_time"><?php echo sortLinkTh(' Create date & time', 'datetime_direct', 'datetime_reverse')?></th>
+                        <th scope="col" class="edit_date_and_time">Edit date & time</th>
+                        <th scope="col" class="table_options">Options</th>
+                    </tr>
+                </thead>
+                <tbody id="table-content">
 
-                </tr>
+                </tbody>
             </table>
         </div>
-<!--        <div class="container">-->
-<!--            <div class="pages">-->
+        <div class="container">
+            <div class="pages">
 <!--                --><?php //for ($i = 1; $i <= $pages; $i += 1): ?>
 <!--                    <a href="?page=--><?//=$i - 1?><!--" class="page_link">--><?//= $i ?><!--</a>-->
 <!--                --><?php //endfor ?>
-<!--            </div>-->
-<!--        </div>-->
+            </div>
+        </div>
     </main>
 </body>
 <script src="./previewMessage.js"></script>
@@ -246,4 +247,5 @@ $cookies = new Cookies();
 <script type="module" src="searchMessage/searchMessage.js"></script>
 <!--<script src="optionsWithMessages/editMessage.js"></script>-->
 <!--<script src="optionsWithMessages/deleteMessage.js"></script>-->
+<script src="pages.js"></script>
 </html>
